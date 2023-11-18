@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.time.LocalDate;
+
 @Builder
 @Data
 @AllArgsConstructor
@@ -18,6 +20,8 @@ public class User {
     private String firstname;
     @NonNull
     private String lastname;
+    @NonNull
+    private LocalDate dateOfBirth;
     @NonNull
     private String email;
 }

@@ -2,7 +2,7 @@ package by.clevertec.lobacevich.cache.impl;
 
 import by.clevertec.lobacevich.cache.Cache;
 import by.clevertec.lobacevich.entity.User;
-import by.clevertec.lobacevich.util.YmlReader;
+import by.clevertec.lobacevich.util.YamlReader;
 
 import java.util.Deque;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class LRUCache implements Cache {
     }
 
     private void setCapacity() {
-        this.capacity = Integer.parseInt(YmlReader.getData().get("LRUCache.capacity"));
+        this.capacity = Integer.parseInt(YamlReader.getData().get("Cache.capacity"));
     }
 
     @Override
@@ -31,7 +31,7 @@ public class LRUCache implements Cache {
         if (map.containsKey(id)) {
             User user = map.get(id);
             deque.remove(user);
-            deque.addFirst(user);
+            deque.addLast(user);
             return Optional.of(user);
         } else {
             return Optional.empty();
@@ -39,23 +39,21 @@ public class LRUCache implements Cache {
     }
 
     @Override
-    public boolean put(User user) {
+    public void put(User user) {
         int userId = user.getId();
         if (map.containsKey(userId)) {
             User oldUser = map.get(user.getId());
             deque.remove(oldUser);
-            deque.addFirst(user);
+            deque.addLast(user);
             map.put(userId, user);
-            return true;
         } else {
             map.put(userId, user);
-            deque.addFirst(user);
+            deque.addLast(user);
             if (deque.size() > this.capacity) {
-                User oldUser = deque.getLast();
+                User oldUser = deque.getFirst();
                 map.remove(oldUser.getId());
-                deque.removeLast();
+                deque.removeFirst();
             }
-            return true;
         }
     }
 

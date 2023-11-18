@@ -3,12 +3,11 @@ package by.clevertec.lobacevich.cache.impl;
 import by.clevertec.lobacevich.entity.User;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
-class LRUCacheTest {
+class LFUCacheTest {
 
-    LRUCache cache = new LRUCache();
+    LFUCache cache = new LFUCache();
 
     @Test
     void getById() {

@@ -1,20 +1,19 @@
 package by.clevertec.lobacevich.util;
 
-import by.clevertec.lobacevich.exception.YmlReaderException;
+import by.clevertec.lobacevich.exception.YamlReaderException;
 import lombok.Cleanup;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-public class YmlReader {
+public class YamlReader {
 
     private static final String PATH = "src/main/resources/application.yml";
 
-    private YmlReader() {
+    private YamlReader() {
     }
 
     public static Map<String, String> getData() {
@@ -24,7 +23,7 @@ public class YmlReader {
             Yaml yaml = new Yaml();
             return yaml.load(in);
         } catch (IOException e) {
-            throw new YmlReaderException("Can't read yml");
+            throw new YamlReaderException("Can't read yml");
         }
     }
 }
