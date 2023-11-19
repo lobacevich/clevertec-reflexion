@@ -1,4 +1,4 @@
-Connect.url: "jdbc:postgresql://localhost:5432/clever_bank"
+Connect.url: "jdbc:postgresql://localhost:5432/clevertec_user"
 Connect.username: "postgres"
 Connect.password: "root"
 Cache.capacity: "3"

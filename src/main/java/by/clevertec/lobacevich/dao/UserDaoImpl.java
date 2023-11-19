@@ -51,6 +51,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void deleteUser(User user, Connection connection) throws DataBaseException {
+
         try (PreparedStatement ps = connection.prepareStatement(DELETE_USER)) {
             ps.setLong(1, user.getId());
             ps.executeUpdate();
