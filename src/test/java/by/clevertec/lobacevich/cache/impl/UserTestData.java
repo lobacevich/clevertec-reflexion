@@ -8,7 +8,7 @@ public class UserTestData {
 
     public static User getUser1() {
         return User.builder()
-                .id(1)
+                .id(1L)
                 .firstname("Alex")
                 .lastname("Murfhy")
                 .dateOfBirth(LocalDate.of(1997, 05, 17))
@@ -18,7 +18,7 @@ public class UserTestData {
 
     public static User getUser2() {
         return User.builder()
-                .id(2)
+                .id(2L)
                 .firstname("Nick")
                 .lastname("Smith")
                 .dateOfBirth(LocalDate.of(1990, 02, 27))
@@ -28,7 +28,7 @@ public class UserTestData {
 
     public static User getUser3() {
         return User.builder()
-                .id(3)
+                .id(3L)
                 .firstname("Mike")
                 .lastname("Carter")
                 .dateOfBirth(LocalDate.of(2001, 12, 06))
@@ -38,7 +38,7 @@ public class UserTestData {
 
     public static User getUser4() {
         return User.builder()
-                .id(4)
+                .id(4L)
                 .firstname("Bob")
                 .lastname("Bond")
                 .dateOfBirth(LocalDate.of(1980, 07, 02))
