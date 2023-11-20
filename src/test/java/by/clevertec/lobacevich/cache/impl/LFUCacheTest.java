@@ -14,7 +14,7 @@ class LFUCacheTest {
         User expected = UserTestData.getUser1();
         cache.put(expected);
 
-        User actual = cache.getById(1).orElseThrow();
+        User actual = cache.getById(1L);
 
         assertEquals(expected, actual);
     }
@@ -26,7 +26,7 @@ class LFUCacheTest {
         cache.put(UserTestData.getUser3());
         cache.put(UserTestData.getUser4());
 
-        assertNull(cache.getById(1).orElse(null));
+        assertNull(cache.getById(1L));
     }
 
     @Test
@@ -34,8 +34,8 @@ class LFUCacheTest {
         User user = UserTestData.getUser1();
         cache.put(user);
 
-        cache.deleteById(1);
+        cache.deleteById(1L);
 
-        assertNull(cache.getById(1).orElse(null));
+        assertNull(cache.getById(1L));
     }
 }

@@ -8,13 +8,12 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Optional;
 
 public class LFUCache implements Cache {
 
-    private final Map<Integer, User> map;
-    private final Map<Integer, Integer> frequency;
-    private final Map<Integer, Deque<Integer>> frequencyList;
+    private final Map<Long, User> map;
+    private final Map<Long, Integer> frequency;
+    private final Map<Integer, Deque<Long>> frequencyList;
     private int minFrequency;
     public int capacity;
 
@@ -31,16 +30,16 @@ public class LFUCache implements Cache {
     }
 
     @Override
-    public Optional<User> getById(Integer id) {
+    public User getById(Long id) {
         if (map.containsKey(id)) {
             increaseFrequency(id);
-            return Optional.of(map.get(id));
+            return map.get(id);
         } else {
-            return Optional.empty();
+            return null;
         }
     }
 
-    private void increaseFrequency(int id) {
+    private void increaseFrequency(Long id) {
         int freq = frequency.get(id);
         frequency.put(id, freq + 1);
         frequencyList.get(freq).remove(id);
@@ -55,13 +54,13 @@ public class LFUCache implements Cache {
 
     @Override
     public void put(User user) {
-        int id = user.getId();
+        Long id = user.getId();
         if (map.containsKey(id)) {
             map.put(id, user);
             increaseFrequency(id);
         } else {
             if (map.size() >= capacity) {
-                int idToRemove = frequencyList.get(minFrequency).getFirst();
+                Long idToRemove = frequencyList.get(minFrequency).getFirst();
                 frequencyList.get(minFrequency).removeFirst();
                 frequency.remove(idToRemove);
                 map.remove(idToRemove);
@@ -77,7 +76,7 @@ public class LFUCache implements Cache {
     }
 
     @Override
-    public boolean deleteById(Integer id) {
+    public boolean deleteById(Long id) {
         if (!map.containsKey(id)) {
             return false;
         }

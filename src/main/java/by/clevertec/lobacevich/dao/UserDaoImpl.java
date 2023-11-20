@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +24,22 @@ public class UserDaoImpl implements UserDao {
     private static final String GET_ALL = "SELECT * FROM users ORDER BY id";
 
     @Override
-    public void createUser(User user, Connection connection) throws DataBaseException {
-        try (PreparedStatement ps = connection.prepareStatement(CREATE_USER)) {
+    public User createUser(User user, Connection connection) throws DataBaseException {
+        try (PreparedStatement ps = connection.prepareStatement(CREATE_USER, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getFirstname());
             ps.setString(2, user.getLastname());
             ps.setObject(3, user.getDateOfBirth());
             ps.setString(4, user.getEmail());
             ps.executeUpdate();
+            try(ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    user.setId(generatedKeys.getLong(1));
+                    return user;
+                }
+                else {
+                    throw new DataBaseException("DB failed: Can't get generated key");
+                }
+            }
         } catch (SQLException e) {
             throw new DataBaseException("DB failed: Can't create user");
         }
@@ -51,7 +61,6 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void deleteUser(User user, Connection connection) throws DataBaseException {
-
         try (PreparedStatement ps = connection.prepareStatement(DELETE_USER)) {
             ps.setLong(1, user.getId());
             ps.executeUpdate();
@@ -61,7 +70,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> findUserById(long id, Connection connection) throws DataBaseException {
+    public Optional<User> findUserById(Long id, Connection connection) throws DataBaseException {
         try (PreparedStatement ps = connection.prepareStatement(GET_BY_ID)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
@@ -90,10 +99,10 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    private User resultSetToUser(ResultSet rs) throws DataBaseException {
+    private User resultSetToUser(ResultSet rs) {
         try {
             User user = new User();
-            user.setId(rs.getInt("id"));
+            user.setId(rs.getLong("id"));
             user.setFirstname(rs.getString("firstname"));
             user.setLastname(rs.getString("lastname"));
             user.setDateOfBirth(rs.getObject("date_of_birth", LocalDate.class));

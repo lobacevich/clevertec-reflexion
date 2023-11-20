@@ -20,6 +20,10 @@ public class Main {
                 .dateOfBirth(LocalDate.of(2001, 12, 06))
                 .email("1236@gmail.com")
                 .build();
-        service.createUser(mapper.toUserDto(user));
+        System.out.println(service.createUser(mapper.toUserDto(user)));
+//        System.out.println(service.deleteUser(6));
+//        System.out.println(service.findUserById(10L));
+//        System.out.println(service.getAll());
+
     }
 }

@@ -20,8 +20,8 @@ public class UserServiceImpl implements UserService {
     private final UserMapper mapper = new UserMapperImpl();
 
     @Override
-    public void createUser(UserDto userDto) {
-        dao.createUser(mapper.toUser(userDto), CONNECTION);
+    public UserDto createUser(UserDto userDto) {
+        return mapper.toUserDto(dao.createUser(mapper.toUser(userDto), CONNECTION));
     }
 
     @Override
@@ -30,17 +30,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Integer id) {
+    public boolean deleteUser(Long id) {
         Optional<User> userOptional = dao.findUserById(id, CONNECTION);
         if (userOptional.isEmpty()) {
-            System.out.println("User not found");
+            return false;
         } else {
             dao.deleteUser(userOptional.get(), CONNECTION);
+            return true;
         }
     }
 
     @Override
-    public UserDto findUserById(Integer id) {
+    public UserDto findUserById(Long id) {
         Optional<User> userOptional = dao.findUserById(id, CONNECTION);
         if (userOptional.isEmpty()) {
             System.out.println("User not found");

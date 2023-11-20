@@ -8,11 +8,10 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Optional;
 
 public class LRUCache implements Cache {
 
-    private final Map<Integer, User> map;
+    private final Map<Long, User> map;
     private final Deque<User> deque;
     public int capacity;
 
@@ -27,20 +26,20 @@ public class LRUCache implements Cache {
     }
 
     @Override
-    public Optional<User> getById(Integer id) {
+    public User getById(Long id) {
         if (map.containsKey(id)) {
             User user = map.get(id);
             deque.remove(user);
             deque.addLast(user);
-            return Optional.of(user);
+            return user;
         } else {
-            return Optional.empty();
+            return null;
         }
     }
 
     @Override
     public void put(User user) {
-        int userId = user.getId();
+        Long userId = user.getId();
         if (map.containsKey(userId)) {
             User oldUser = map.get(user.getId());
             deque.remove(oldUser);
@@ -58,7 +57,7 @@ public class LRUCache implements Cache {
     }
 
     @Override
-    public boolean deleteById(Integer id) {
+    public boolean deleteById(Long id) {
         if (map.containsKey(id)) {
             User user = map.get(id);
             map.remove(id);
