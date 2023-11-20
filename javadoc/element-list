@@ -1,0 +1,14 @@
+by.clevertec.lobacevich.aspectj
+by.clevertec.lobacevich.cache
+by.clevertec.lobacevich.cache.impl
+by.clevertec.lobacevich.dao
+by.clevertec.lobacevich.data
+by.clevertec.lobacevich.db
+by.clevertec.lobacevich.entity
+by.clevertec.lobacevich.exception
+by.clevertec.lobacevich.mapper
+by.clevertec.lobacevich.runner
+by.clevertec.lobacevich.service
+by.clevertec.lobacevich.service.impl
+by.clevertec.lobacevich.util
+by.clevertec.lobacevich.validator
